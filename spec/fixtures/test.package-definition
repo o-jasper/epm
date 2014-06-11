@@ -1,0 +1,16 @@
+# Package Name:       EPM Test
+# Package Author:     Casey Kuhlman
+# Package Email:      casey@projectdouglas.org
+# Package Repository: https://github.com/ethereum-package-manager/epm
+
+deploy:
+  test.lll => {{DOUG}}
+modify-deploy:
+  test.lll => {{rep}}
+  (def 'DOUG 0x9c0182658c9d57928b06d3ee20bb2b619a9cbf7b) => (def 'DOUG {{DOUG}})
+transact:
+  {{DOUG}} => rep {{rep}}
+query:
+  {{DOUG}} => 0x7265700000000000000000000000000000000000000000000000000000000000 => {{KEYVALSTORE}}
+log:
+  {{KEYVALSTORE}} => {{rep}}

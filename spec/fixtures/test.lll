@@ -1,0 +1,15 @@
+{
+    (include "./test2.lll")
+    (def 'DOUG 0x9c0182658c9d57928b06d3ee20bb2b619a9cbf7b)
+    (def 'BAindicator 0x10)
+    [[BAindicator]]0x88554646BA
+    [[69]] (caller)
+    [[0xDEADBEEF]]DOUG
+    (return 0 (lll
+      (when (= (caller) @@69)
+        (for {} (< @i (calldatasize)) [i](+ @i 64)
+          [[ (calldataload @i) ]] (calldataload (+ @i 32))
+        )
+      )
+    0))
+}

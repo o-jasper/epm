@@ -20,6 +20,8 @@ Gem::Specification.new do |s|
   s.test_files        = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths     = ["lib"]
 
+  s.add_dependency    "commander", "~> 4.1.6"
+
   s.description       = <<desc
   This gem is designed to assist in distribution, dissemination, compilation, and deployment of Ethereum contracts.
 desc

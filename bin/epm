@@ -2,6 +2,89 @@
 #
 # == USAGE
 #  epm subcommand [file]
-args = ARGV
-require 'epm'
-EPM::parse(args)
+require '../lib/epm.rb'
+# args = ARGV
+# EPM::parse args
+
+require 'commander/import'
+
+program :version, EPM.version
+program :description, 'Ethereum Package Manager assists in the management of Ethereum Packages and Tools to ease developers workflows.'
+
+##
+## Package Workflow Commands
+##
+command :compile do |c|
+  c.syntax = 'epm compile'
+  c.description = 'Compile an ethereum contract and return the byte code array.'
+  c.action do |args|
+    result = EPM.compile(args)
+    result.each{|l| print l + "\n"}
+  end
+end
+
+command :create do |c|
+  c.syntax = 'epm create'
+  c.description = 'Compile an ethereum contract and deploy to the blockchain.'
+  c.action do |args|
+    result = EPM.create(args)
+    result.each{|l| print l + "\n"}
+  end
+end
+
+command :deploy do |c|
+  c.syntax = 'epm deploy'
+  c.description = 'Compile and deploy a system of contracts to the blockchain. See gem README for EPM package-definition file syntax.'
+  c.action do |args|
+    EPM.deploy(args)
+  end
+end
+
+##
+## EPM Tools
+##
+command :transact do |c|
+  c.syntax = 'epm transact'
+  c.description = 'Send a transaction to a contract. Note this is to work with contracts, it will not (by default) send ether.'
+  c.action do |args|
+    print "Transaction Sent.\n"
+  end
+end
+
+command :query do |c|
+  c.syntax = 'epm query'
+  c.description = 'Query a storage position of a contract currently on the blockchain.'
+  c.action do |args|
+    print EPM.query(args) + "\n"
+  end
+end
+
+command :start do |c|
+  c.syntax = 'epm start'
+  c.description = 'Start your default ethereum server.'
+  c.action do
+    print "Please be patient, this will take a few seconds.\n"
+    EPM.start
+    print "Server has started.\n"
+  end
+end
+
+command :stop do |c|
+  c.syntax = 'epm stop'
+  c.description = 'Stop your default ethereum server.'
+  c.action do
+    EPM.stop
+    print "Server has stopped.\n"
+  end
+end
+
+command :restart do |c|
+  c.syntax = 'epm restart'
+  c.summary = ''
+  c.description = 'Restart your default ethereum server.'
+  c.action do
+    print "Please be patient, this will take a few seconds.\n"
+    EPM.restart
+    print "Server has been restarted.\n"
+  end
+end
