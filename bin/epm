@@ -2,7 +2,7 @@
 #
 # == USAGE
 #  epm subcommand [file]
-require '../lib/epm.rb'
+require File.join(File.dirname(__FILE__), '..', 'lib', 'epm.rb')
 # args = ARGV
 # EPM::parse args
 
