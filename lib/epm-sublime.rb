@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'epm.rb'
+require File.join(File.dirname(__FILE__), 'epm.rb')
 
 args = ARGV
 command = ARGV.shift
