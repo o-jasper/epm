@@ -1,11 +1,6 @@
 #!/usr/bin/env ruby
-#
-# == USAGE
-#  epm subcommand [file]
-require File.join(File.dirname(__FILE__), '..', 'lib', 'epm.rb')
-# args = ARGV
-# EPM::parse args
 
+require File.join(File.dirname(__FILE__), '..', 'lib', 'epm.rb')
 require 'commander/import'
 
 program :version, EPM.version
