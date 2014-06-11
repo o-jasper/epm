@@ -1,0 +1,17 @@
+{
+  "path-to-ruby": "ruby",
+  "path-to-eth": "/opt/cpp-ethereum/build/eth/eth", // cpp client
+  "path-to-ethereal": "ethereal",
+  "path-to-go-ethereum": "ethereum",
+  "path-to-lllc": "/opt/cpp-ethereum/build/lllc/lllc",
+  "path-to-mutan": "mutan",
+  "path-to-serpent": "serpent",
+  "preferred-client": "cpp", // can also use `go` <- which will run go headless or `ethereal` <- qt go client.
+  "json-port": "9090",
+  "remote": "remote",  // this would typically be the default peer server for your client variant
+  "directory": "~/.ethereum", // in cpp world Aleth defaults to this so change to a different directory to run eth headless in
+  "eth-listen-port": "30303", // see the comment above
+  "name": "name", // this is the client name
+  "address-public-key": "0xact",
+  "address-private-key": "0xsec"
+}
