@@ -117,6 +117,9 @@ module EPM
           piece = bits[2..-1]
           piece = piece.rjust(64,'0')
         else
+          if piece = ("''" || '""')
+            piece = ''
+          end
           piece = bits.unpack('c*').map{|s| s.to_s(16)}.join('')
           piece = piece.ljust(64,'0')
         end
