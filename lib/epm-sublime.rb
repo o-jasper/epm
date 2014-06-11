@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require ('./epm.rb')
+require 'epm.rb'
 
 args = ARGV
 command = ARGV.shift
@@ -12,13 +12,16 @@ when 'stop'
 when 'restart'
   EPM.restart
 when 'compile'
-  EPM.compile args
+  result = EPM.compile args
+  result.each{|l| print l + "\n"}
 when 'create'
-  EPM.create args
+  result = EPM.create args
+  result.each{|l| print l + "\n"}
 when 'deploy'
-  EPM.deploy args
+  result = EPM.deploy args
+  result.each{|l| print l + "\n"}
 when 'transact'
   EPM.transact args
 when 'query'
-  EPM.query args
+  print EPM.query(args) + "\n"
 end
