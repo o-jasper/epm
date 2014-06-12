@@ -5,7 +5,7 @@ module EPM
     def initialize file, settings={}
       if file
         @uri      = URI.parse "http://localhost:#{settings['json-port']}"
-        @settings = settings
+        setup settings
         @contract = EPM::Compile.new(file, @settings).compile
       end
     end
@@ -30,6 +30,14 @@ module EPM
         post_body   = { 'method' => 'EthereumApi.Create', 'params' => params, 'id' => 'epm-rpc', 'jsonrpc' => '2.0'}.to_json
       end
       return EPM::Server.http_post_request @uri, post_body
+    end
+
+    def setup settings
+      unless settings.empty?
+        @settings = settings
+      else
+        @settings = EPM::Settings.check
+      end
     end
   end
 end

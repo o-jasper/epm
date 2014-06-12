@@ -4,7 +4,7 @@ module EPM
   class Transact
     def initialize recipient, data, settings={}
       @uri       = URI.parse "http://localhost:#{settings['json-port']}"
-      @settings  = settings
+      setup settings
       @recipient = EPM::HexData.hex_guard recipient
       @data      = EPM::HexData.construct_data data
     end
@@ -31,6 +31,14 @@ module EPM
         post_body = { 'method' => 'EthereumApi.Transact', 'params' => params, 'id' => 'epm-rpc', "jsonrpc" => "2.0" }.to_json
       end
       return EPM::Server.http_post_request @uri, post_body
+    end
+
+    def setup settings
+      unless settings.empty?
+        @settings = settings
+      else
+        @settings = EPM::Settings.check
+      end
     end
   end
 end
