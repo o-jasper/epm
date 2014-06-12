@@ -5,13 +5,15 @@ module EPM
     def initialize def_file, settings={}
       @dirname  = File.dirname(File.absolute_path(def_file))
       @log_file = File.join(ENV['HOME'], '.epm', 'deployed-log.csv')
-      @settings = settings
+      setup settings
       @brain    = {}
       @def_file = def_file
     end
 
     def deploy_package
+      get_remote_if_remote
       if @def_file
+        p "Deploying: #{@def_file}."
         commands = File.readlines @def_file
         commands = commands.reject{|cmd| cmd[/\A#/] || cmd[/\A$/]}.map{|cmd| cmd.gsub("\n",'')}
         commands = commands.inject([]) do |arr,ele|
@@ -121,6 +123,79 @@ module EPM
       value = command.shift
       p "Setting #{key} to #{value}"
       @brain[key] = value
+    end
+
+    def get_remote_if_remote
+      if is_it_a_remote_file?
+        begin
+          p "Cloning into Remote."
+          tmp = Tempfile.new 'epm'
+          Dir.chdir File.dirname tmp.path
+          unless File.directory? 'cloned'
+            Dir.mkdir 'cloned'
+          end
+          Dir.chdir 'cloned'
+          begin
+            `git clone #{@def_file}`
+          end
+          dir = Dir.glob('*')[0]
+          dir = File.dirname(tmp.path) + '/cloned/' + dir
+          Dir.chdir dir
+          def_files = Dir.glob('*').select {|f| File.extname(f) == '.package-definition'}
+          if def_files.empty?
+            dirs = Dir.glob('*').select {|f| File.directory? f}
+            dirs.each do |d|
+              Dir.chdir d
+              def_files << Dir.glob('*').inject([]) do |arr,f|
+                if File.extname(f) == '.package-definition'
+                  arr << d + '/' + f
+                end
+                arr
+              end
+              Dir.chdir dir
+            end
+          end
+          def_files.flatten!
+          def_files.each do |df|
+            this_def_dir = File.dirname df
+            this_def_file = File.basename df
+            Dir.chdir this_def_dir
+            EPM::Deploy.new(this_def_file, @settings).deploy_package
+            Dir.chdir dir
+          end
+        rescue Exception => e
+          p "There was an error during that deploy."
+          puts e.message
+        ensure
+          remote_cleanup tmp
+          tmp.unlink
+          exit 0
+        end
+      end
+    end
+
+    def is_it_a_remote_file?
+      @remote = false
+      if @def_file[/https*:\/\//] || @def_file[/gits*:\/\//] || @def_file[/.+@.+\..+:/]
+        @remote = true
+        return true
+      end
+      false
+    end
+
+    def remote_cleanup tmp
+      if @remote
+        Dir.chdir File.dirname tmp.path
+        FileUtils.rm_rf 'cloned'
+      end
+    end
+
+    def setup settings
+      unless settings.empty?
+        @settings = settings
+      else
+        @settings = EPM::Settings.check
+      end
     end
   end
 end
