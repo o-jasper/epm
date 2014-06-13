@@ -35,13 +35,9 @@ module EPM
   end
 
   def deploy args
-    output = []
-    until args.empty?
-      file = args.shift
-      settings = setup
-      output << EPM::Deploy.new(file, settings).deploy_package
-    end
-    output
+    file     = args.shift
+    settings = setup
+    output   = EPM::Deploy.new(file, settings).deploy_package
   end
 
   def transact args

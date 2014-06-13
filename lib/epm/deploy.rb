@@ -169,7 +169,6 @@ module EPM
         ensure
           remote_cleanup tmp
           tmp.unlink
-          exit 0
         end
       end
     end
