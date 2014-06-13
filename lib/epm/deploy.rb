@@ -169,6 +169,7 @@ module EPM
         ensure
           remote_cleanup tmp
           tmp.unlink
+          @def_file = false
         end
       end
     end
