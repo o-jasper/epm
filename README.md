@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/project-douglas/epm.png?label=ready&title=Ready)](https://waffle.io/project-douglas/epm)
 # Introduction
 
 EPM is a package (provision?) manager. It is meant to simplify the management of git hosted repositories which contain Ethereum standard or customized contracts. This package manager should work in the way which most package managers operate -- with the addition that it will be able to interact with the Ethereum BlockChain.
