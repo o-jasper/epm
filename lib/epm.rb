@@ -54,6 +54,20 @@ module EPM
     EPM::Query.new(address, position, settings).query
   end
 
+  def sim args, opts  # TODO
+    input = {
+      :origin => opts.sender,
+      :sender => opts.sender,
+      :recipient => args.shift, 
+      :value => opts.value,
+      :data => args.shift,
+      :gas => opts.gas,
+      :gasprice => opts.gasprice
+    }
+    settings = setup
+    EPM::SimCall.new(input, settings).sim_call
+  end
+
   def version
     return VERSION
   end

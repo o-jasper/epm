@@ -54,6 +54,15 @@ command :query do |c|
   end
 end
 
+command :sim do |c|
+  c.syntax = 'epm sim'
+  c.description = 'Simulate sending a message to a contract.(Transactions produce a message)'
+  c.action do |args, opts|
+    opts.default :sender => nil, :origin => nil, :value => nil, :gas => nil, :gasprice => nil
+    print EPM.sim(args, opts) + "\n"
+  end
+end
+
 command :start do |c|
   c.syntax = 'epm start'
   c.description = 'Start your default ethereum server.'
