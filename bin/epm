@@ -54,6 +54,14 @@ command :query do |c|
   end
 end
 
+command :rpc do |c|
+  c.syntax = 'epm rpc'
+  c.description = 'RPC json query, keywords map to elements in it.'
+  c.action do |args, opts|
+    print "#{EPM.rpc args, opts}\n"
+  end
+end
+
 command :start do |c|
   c.syntax = 'epm start'
   c.description = 'Start your default ethereum server.'
