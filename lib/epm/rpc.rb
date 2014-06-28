@@ -4,15 +4,16 @@
 
 module EPM
 
-#  module RPC
+  module RPC
+    extend self
 
     # Returns the default, given other inputs.
     def rpc_default name, arg_name, params
       case arg_name
       when 'aOrigin'
-        return (setup)['address-public-key']
+        return (EPM::setup)['address-public-key']
       when 'aSender'
-        return (params['aOrigin'] or (setup)['address-public-key'])
+        return (params['aOrigin'] or (EPM::setup)['address-public-key'])
       when 'xValue', 'bData'
         return ''
       when 'xGas'
@@ -28,6 +29,9 @@ module EPM
       when 'transact'
         return [["aDest", :a], ["bData", :d],     ["sec", :p],
                 ["xGas", :v],  ["xGasPrice", :v], ["xValue", :v]]
+      when 'create'
+        return [["bCode", :d], ["sec", :p], ["xEndowment", :v],
+                ["xGas", :v], ["xGasPrice", :v]]
       when 'storageAt'
         return [['a', :a], ['x', :i]]
       when 'lll'
@@ -50,8 +54,8 @@ module EPM
     end
     
     def post_rpc post_body
-      url = URI.parse "http://localhost:#{(setup)['json-port']}"
+      url = URI.parse "http://localhost:#{(EPM::setup)['json-port']}"
       return EPM::Server.http_post_request url, post_body.to_json
     end
-#  end # end RPC
+  end # end RPC
 end
