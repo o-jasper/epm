@@ -10,6 +10,8 @@ module EPM
     # Returns the default, given other inputs.
     def rpc_default name, arg_name, params
       case arg_name
+      when 'sec'
+        return (EPM::setup)['address-private-key']
       when 'aOrigin'
         return (EPM::setup)['address-public-key']
       when 'aSender'
