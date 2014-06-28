@@ -16,7 +16,9 @@ module EPM
         return (EPM::setup)['address-public-key']
       when 'aSender'
         return (params['aOrigin'] or (EPM::setup)['address-public-key'])
-      when 'xValue', 'bData'
+      when 'xEndowment', 'xValue'
+        return '0'
+      when 'bData'
         return ''
       when 'xGas'
         return '100000'
