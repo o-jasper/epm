@@ -10,11 +10,15 @@ module EPM
     # Returns the default, given other inputs.
     def rpc_default name, arg_name, params
       case arg_name
+      when 'sec'
+        return (EPM::setup)['address-private-key']
       when 'aOrigin'
         return (EPM::setup)['address-public-key']
       when 'aSender'
         return (params['aOrigin'] or (EPM::setup)['address-public-key'])
-      when 'xValue', 'bData'
+      when 'xEndowment', 'xValue'
+        return '0'
+      when 'bData'
         return ''
       when 'xGas'
         return '100000'
