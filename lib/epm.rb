@@ -54,6 +54,19 @@ module EPM
     EPM::Query.new(address, position, settings).query
   end
 
+  def rpc args, opts
+    name = args.shift
+    arg_list = EPM::RPC.rpc_arg_list name
+    opt_vals = {  # `opts.instance_variable_get` doesnt seem to work, nor `opts.send`
+      'a' => opts.a, 'x' => opts.x,'s' => opts.s, 'aDest' => opts.aDest,
+      'bData' => opts.bData, 'sec' => opts.sec, 'xGas' => opts.xGas,
+      'xGasPrice' => opts.xGasPrice, 'xValue' => opts.xValue,
+      'bCode' => opts.bCode,'xEndowment' => opts.xEndowment
+    }
+    params   = EPM::RPC.rpc_from_args name, arg_list, args, opt_vals
+    return EPM::RPC.post_rpc_with_params name, params
+  end
+
   def version
     return VERSION
   end

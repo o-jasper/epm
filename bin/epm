@@ -54,6 +54,25 @@ command :query do |c|
   end
 end
 
+command :rpc do |c|
+  c.syntax = 'epm rpc [method] [...args...]'
+  c.description = 'RPC json query, keywords map to elements in it.'
+  c.option '--a ADDRESS', String, 'Some address.'
+  c.option '--x VALUE', String, 'Some value.'
+  c.option '--s STRING', String, 'Some string, for lll, lll code.'
+  c.option '--aDest ADDRESS', String, 'Destination address.'
+  c.option '--bData HEX', String, 'Hex data.'
+  c.option '--sec HEX', String, 'Private key. (yikes! chill, its testnet)'
+  c.option '--xGas VALUE', String, 'Gas budget.'
+  c.option '--xGasPrice VALUE', String, 'Gas price offered.'
+  c.option '--xValue VALUE', String, 'ethers along with transaction.'
+  c.option '--bCode HEX', String, 'Binary code as hex value.'
+  c.option '--xEndowment VALUE', String, 'Ethers to give a created contract.'
+  c.action do |args, opts|
+    print "#{EPM.rpc args, opts}\n"
+  end
+end
+
 command :start do |c|
   c.syntax = 'epm start'
   c.description = 'Start your default ethereum server.'
