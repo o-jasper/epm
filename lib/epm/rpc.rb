@@ -14,7 +14,7 @@ module EPM
         return (EPM::setup)['address-private-key']
       when 'aOrigin'
         return (EPM::setup)['address-public-key']
-      when 'aSender'
+      when 'aSend'
         return (params['aOrigin'] or (EPM::setup)['address-public-key'])
       when 'xEndowment', 'xValue'
         return '0'
@@ -33,6 +33,10 @@ module EPM
       when 'transact'
         return [["aDest", :a], ["bData", :d],     ["sec", :p],
                 ["xGas", :v],  ["xGasPrice", :v], ["xValue", :v]]
+      when 'simCall'
+        return [["aDest", :a],   ["bData", :d],
+                ["xValue", :v],  ["xGas", :v],  ["xGasPrice", :v],
+                ["aOrigin", :a], ["aSend", :a]]
       when 'create'
         return [["bCode", :d], ["sec", :p], ["xEndowment", :v],
                 ["xGas", :v], ["xGasPrice", :v]]
