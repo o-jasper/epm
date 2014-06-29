@@ -31,8 +31,8 @@ module EPM
     def rpc_arg_list name
       case name
       when 'transact'
-        return [["aDest", :a], ["bData", :d],     ["sec", :p],
-                ["xGas", :v],  ["xGasPrice", :v], ["xValue", :v]]
+        return [["aDest", :a], ["bData", :d],     ["xValue", :v],
+                ["xGas", :v],  ["xGasPrice", :v], ["sec", :p]]
       when 'simCall'
         return [["aDest", :a],   ["bData", :d],
                 ["xValue", :v],  ["xGas", :v],  ["xGasPrice", :v],
@@ -73,9 +73,7 @@ module EPM
         val = (opt_vals[a[0]] or args.shift)
         if val != nil && val != ''
           case a[1]  # Respond to kind of parameter.
-          when :d, :p, :v, :i
-            params[a[0]] = val
-          when :a
+          when :a, :d, :p, :v, :i
             params[a[0]] = (EPM::HexData.hex_guard val)
           else
             raise 'Unidentified kind of data'
